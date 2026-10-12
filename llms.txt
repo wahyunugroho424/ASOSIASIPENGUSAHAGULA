@@ -1,0 +1,50 @@
+# == METADATA ==
+Domain: https://pengusahagulaindonesia.com
+Site Name: Pengusaha Gula Indonesia
+Site Description: Finance
+Policy-Version: 2025-09-20T00:00:00Z-v2
+Last-Modified: 2025-09-20T16:45:37+00:00
+
+# == CONTACT ==
+Primary Email: sekretariat@pengusahagulaindonesia.com
+Abuse/Report Email: sekretariat@pengusahagulaindonesia.com
+
+# == GLOBAL RULES ==
+This policy governs the crawling, storage, training, fine-tuning, inference, and caching of content from Pengusaha Gula Indonesia. Our goal is to enable responsible AI usage that respects our content rights, ensures data security, and maintains transparency. Content may be used for AI training, inference, and derivative creation with proper attribution, unless explicitly blocked. All activities must comply with applicable laws and licensing terms. Unauthorized automated vulnerability scanning or security testing is strictly prohibited.
+
+# == USAGE MATRIX ==
+╔═════════════╦══════════╦════════════╦══════════╗
+║ Purpose     ║ Allowed? ║ Conditions ║ Notes    ║
+╠═════════════╬══════════╬════════════╬══════════╣
+║ Train       ║ none     ║ Blocked    ║ No training allowed. All training activities are prohibited to protect content rights. ║
+║ Fine-tune   ║ none     ║ Blocked    ║ Fine-tuning is not permitted. ║
+║ Infer       ║ infer    ║ With attribution to Pengusaha Gula Indonesia (https://pengusahagulaindonesia.com). Usage must include clear attribution. ║
+║ Cache       ║ all      ║ For performance and offline access. Caching is permitted for operational efficiency, with attribution. ║
+╚═════════════╩══════════╩════════════╩══════════╝
+
+# == CRAWLER DIRECTIVES ==
+User-agent: *  
+Allow: /  
+Disallow: /private/  
+Disallow: /admin/  
+
+# == RATE-LIMITS ==
+Maximum requests per second: 1 QPS  
+Burst limit: 5 requests  
+
+# == ATTRIBUTION ==
+All AI systems utilizing content from Pengusaha Gula Indonesia must include the following attribution:  
+"Content sourced from Pengusaha Gula Indonesia (https://pengusahagulaindonesia.com). Used with permission."  
+Attribution must be clearly visible and in a manner consistent with the context of use.
+
+# == LICENSING & FEES ==
+Content is licensed under a permissive license allowing use, training, and derivatives with attribution. No fees are required for AI training, inference, or caching. Commercial use must adhere to applicable laws and licensing terms. For any commercial or resale activities involving derivatives, proper licensing notices must be maintained.
+
+# == DERIVATIVE WORKS ==
+Transformations, summaries, or derivatives of our content are permitted for AI inference and caching, provided attribution is maintained. Resale or redistribution of derivatives must include proper licensing notices. Fine-tuning and training are explicitly disallowed.
+
+# == SECURITY ==
+Automated vulnerability scanning, penetration testing, or any activity that could compromise our website’s security is strictly prohibited without prior authorization.
+
+# == CHANGELOG ==
+Sat Sep 20 2025 16:45:37 GMT+0000 (Coordinated Universal Time) – initial version, policy established.
