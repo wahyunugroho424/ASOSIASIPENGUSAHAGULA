@@ -6,14 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Illuminate\Contracts\Encryption\DecryptException;
-
 
 class MemberController extends Controller
 {
-        private function findMember(string $encryptedId): Member
+    private function findMember(string $encryptedId): Member
     {
         try {
             $id = Crypt::decryptString($encryptedId);
@@ -24,13 +24,14 @@ class MemberController extends Controller
         return Member::findOrFail($id);
     }
 
-        public static function encryptId(int $id): string
+    public static function encryptId(int $id): string
     {
         return Crypt::encryptString($id);
     }
+
     public function index(Request $request)
     {
-        $query = Member::ordered();
+        $query = Member::orderBy('sort_order')->orderBy('id');
 
         if ($request->filled('search')) {
             $query->where('name', 'like', '%' . $request->search . '%');
@@ -75,7 +76,8 @@ class MemberController extends Controller
         }
 
         $validated['is_active']  = $request->has('is_active') ? 1 : 0;
-        $validated['sort_order'] = $request->input('sort_order', 0);
+        // Kalau kosong, anggota baru masuk paling bawah
+        $validated['sort_order'] = $request->input('sort_order') ?? ((int) Member::max('sort_order') + 1);
         $validated['created_by'] = Auth::guard('admin')->id();
         $validated['updated_by'] = Auth::guard('admin')->id();
 
@@ -89,7 +91,7 @@ class MemberController extends Controller
     {
         $member    = $this->findMember($encryptedId);
         $logoSizes = $this->getLogoSizeOptions();
-        return view('admin.member.edit', compact('member', 'logoSizes','encryptedId'));
+        return view('admin.member.edit', compact('member', 'logoSizes', 'encryptedId'));
     }
 
     public function update(Request $request, string $encryptedId)
@@ -105,7 +107,7 @@ class MemberController extends Controller
 
         // Handle upload logo baru
         if ($request->hasFile('logo')) {
-            // Hapus logo lama jika ada dan bukan placeholder
+            // Hapus logo lama jika ada
             if ($member->logo && file_exists(public_path('images/members/' . $member->logo))) {
                 @unlink(public_path('images/members/' . $member->logo));
             }
@@ -115,20 +117,17 @@ class MemberController extends Controller
             $validated['logo'] = $filename;
         }
 
-            if ($request->remove_logo == '1') {
-
-        if ($member->logo &&
-            file_exists(public_path('images/members/' . $member->logo))) {
-
-            @unlink(public_path('images/members/' . $member->logo));
+        // Hapus logo tanpa upload pengganti
+        if ($request->remove_logo == '1' && !$request->hasFile('logo')) {
+            if ($member->logo && file_exists(public_path('images/members/' . $member->logo))) {
+                @unlink(public_path('images/members/' . $member->logo));
+            }
+            $validated['logo'] = null;
         }
 
-        $validated['logo'] = null;
-    }
-
-
         $validated['is_active']  = $request->has('is_active') ? 1 : 0;
-        $validated['sort_order'] = $request->input('sort_order', 0);
+        // Kalau kosong, pertahankan urutan yang sekarang
+        $validated['sort_order'] = $request->input('sort_order') ?? $member->sort_order;
         $validated['updated_by'] = Auth::guard('admin')->id();
 
         $member->update($validated);
@@ -137,10 +136,10 @@ class MemberController extends Controller
             ->with('success', 'Anggota "' . $member->name . '" berhasil diperbarui.');
     }
 
-
     public function destroy(string $encryptedId)
     {
         $member = $this->findMember($encryptedId);
+
         if ($member->logo && file_exists(public_path('images/members/' . $member->logo))) {
             @unlink(public_path('images/members/' . $member->logo));
         }
@@ -169,16 +168,19 @@ class MemberController extends Controller
     {
         $request->validate([
             'order'   => 'required|array',
-            'order.*' => 'integer|exists:members,id',
+            'order.*' => 'integer',
+            'offset'  => 'nullable|integer|min:0',
         ]);
 
-        foreach ($request->order as $index => $id) {
-            Member::where('id', $id)->update([
-                'sort_order' => $index + 1,
-                'updated_by' => Auth::guard('admin')->id(),
-            ]);
+        $offset = (int) $request->input('offset', 0);
 
-        }
+        DB::transaction(function () use ($request, $offset) {
+            foreach ($request->order as $index => $id) {
+                Member::where('id', $id)->update([
+                    'sort_order' => $offset + $index + 1,
+                ]);
+            }
+        });
 
         return response()->json(['success' => true]);
     }
@@ -190,5 +192,4 @@ class MemberController extends Controller
             'member-small-logo' => 'Logo Kecil',
         ];
     }
-
 }

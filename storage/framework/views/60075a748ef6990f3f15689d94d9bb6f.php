@@ -24,6 +24,7 @@
         font-size: 18px;
     }
     .drag-handle:active { cursor: grabbing; }
+    .drag-disabled .drag-handle { cursor: not-allowed; opacity: 0.3; }
     tr.sortable-ghost { opacity: 0.4; background: #e9f7ef; }
     .stat-mini-card {
         border-left: 4px solid;
@@ -108,11 +109,16 @@
 </div>
 
 
+<?php $isFiltered = request()->filled('search') || request()->filled('status'); ?>
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
         <h6 class="mb-0"><i class="bi bi-list-ul me-2"></i>Daftar Anggota</h6>
         <small class="text-muted">
-            Drag <i class="bi bi-grip-vertical"></i> untuk mengubah urutan tampil
+            <?php if($isFiltered): ?>
+                Urutan tidak bisa diubah saat filter aktif
+            <?php else: ?>
+                Drag <i class="bi bi-grip-vertical"></i> untuk mengubah urutan tampil
+            <?php endif; ?>
         </small>
     </div>
     <div class="card-body p-0">
@@ -136,14 +142,17 @@
                             <th style="width:150px">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody id="sortable-body">
+                    <tbody id="sortable-body"
+                           class="<?php echo e($isFiltered ? 'drag-disabled' : ''); ?>"
+                           data-offset="<?php echo e($members->firstItem() - 1); ?>"
+                           data-filtered="<?php echo e($isFiltered ? '1' : '0'); ?>">
                         <?php $__currentLoopData = $members; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $i => $member): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <?php $encId = Crypt::encryptString($member->id); ?>
                         <tr data-id="<?php echo e($member->id); ?>">
                             <td class="text-center">
                                 <span class="drag-handle"><i class="bi bi-grip-vertical"></i></span>
                             </td>
-                            <td class="text-muted small"><?php echo e($members->firstItem() + $i); ?></td>
+                            <td class="text-muted small row-number"><?php echo e($members->firstItem() + $i); ?></td>
                             <td>
                                 <img src="<?php echo e($member->logo_url); ?>"
                                      alt="<?php echo e($member->name); ?>"
@@ -153,7 +162,7 @@
                                 <div class="fw-semibold"><?php echo e($member->name); ?></div>
                                 <small class="text-muted"><?php echo e($member->logo ?? 'placeholder.png'); ?></small>
                             </td>
-                            <td class="text-center"><?php echo e($member->sort_order); ?></td>
+                            <td class="text-center sort-order"><?php echo e($member->sort_order); ?></td>
                             <td>
                                 <?php if($member->is_active): ?>
                                     <span class="badge badge-active">Aktif</span>
@@ -247,13 +256,35 @@
     }
 
     const sortableBody = document.getElementById('sortable-body');
+
+    function showToast(message, type = 'success') {
+        const toast = document.createElement('div');
+        toast.className = `position-fixed bottom-0 end-0 m-3 alert alert-${type} py-2 px-3 shadow`;
+        toast.innerHTML = message;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2000);
+    }
+
+    // Perbarui nomor (#) dan kolom Urutan sesuai posisi baris sekarang
+    function renumberRows() {
+        const offset = parseInt(sortableBody.dataset.offset) || 0;
+        sortableBody.querySelectorAll('tr[data-id]').forEach((tr, index) => {
+            const number = offset + index + 1;
+            tr.querySelector('.row-number').textContent = number;
+            tr.querySelector('.sort-order').textContent = number;
+        });
+    }
+
     if (sortableBody) {
         Sortable.create(sortableBody, {
             handle: '.drag-handle',
             animation: 150,
             ghostClass: 'sortable-ghost',
+            // Nonaktif saat filter/pencarian aktif supaya urutan tidak bentrok
+            disabled: sortableBody.dataset.filtered === '1',
             onEnd: function () {
-                // update-order tetap pakai ID asli (integer) — aman karena lewat POST body, bukan URL
+                renumberRows();
+
                 const order = [...sortableBody.querySelectorAll('tr[data-id]')]
                     .map(tr => tr.dataset.id);
 
@@ -261,20 +292,23 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Accept': 'application/json',
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
                     },
-                    body: JSON.stringify({ order }),
+                    body: JSON.stringify({
+                        order: order,
+                        offset: parseInt(sortableBody.dataset.offset) || 0,
+                    }),
                 })
                 .then(r => r.json())
                 .then(d => {
                     if (d.success) {
-                        const toast = document.createElement('div');
-                        toast.className = 'position-fixed bottom-0 end-0 m-3 alert alert-success py-2 px-3 shadow';
-                        toast.innerHTML = '<i class="bi bi-check2 me-1"></i> Urutan disimpan';
-                        document.body.appendChild(toast);
-                        setTimeout(() => toast.remove(), 2000);
+                        showToast('<i class="bi bi-check2 me-1"></i> Urutan disimpan');
+                    } else {
+                        showToast('Gagal menyimpan urutan', 'danger');
                     }
-                });
+                })
+                .catch(() => showToast('Gagal menyimpan urutan', 'danger'));
             }
         });
     }
