@@ -268,7 +268,7 @@
 
             <div class="nav-group-label">Organisasi</div>
 
-            <a href="{{ route('admin.member.index') }}"
+            <!-- <a href="{{ route('admin.member.index') }}"
                class="sidebar-link {{ request()->routeIs('admin.member*') ? 'active' : '' }}">
                 <i class="bi bi-people-fill"></i> Anggota APGI
             </a>
@@ -276,7 +276,7 @@
             <a href="{{ route('admin.structure.index') }}"
                class="sidebar-link {{ request()->routeIs('admin.structure*') ? 'active' : '' }}">
                 <i class="bi bi-diagram-3-fill"></i> Struktur Organisasi
-            </a>
+            </a> -->
 
         </div>
 
