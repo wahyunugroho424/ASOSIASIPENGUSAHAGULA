@@ -400,6 +400,7 @@
         </div>
     </form>
 </div>
+@include('admin.structure._cropper')
 @endsection
 
 @push('scripts')
@@ -461,10 +462,10 @@ function syncActive(checked) {
 }
 
 /* ===== Photo Upload ===== */
-function handlePhotoChange(event) {
-    const file = event.target.files[0];
-    if (file) showPhotoPreview(file);
-}
+    function handlePhotoChange(event) {
+        const file = event.target.files[0];
+        if (file) openCropper(file);
+    }
 
 function handleDragOver(e) {
     e.preventDefault(); e.stopPropagation();
@@ -482,7 +483,7 @@ function handleDrop(e) {
         const dt = new DataTransfer();
         dt.items.add(file);
         document.getElementById('inp-photo').files = dt.files;
-        showPhotoPreview(file);
+        openCropper(file);
     }
 }
 

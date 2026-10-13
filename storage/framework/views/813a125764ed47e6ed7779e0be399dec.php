@@ -452,6 +452,7 @@ unset($__errorArgs, $__bag); ?>
         </div>
     </form>
 </div>
+<?php echo $__env->make('admin.structure._cropper', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startPush('scripts'); ?>
@@ -513,10 +514,10 @@ function syncActive(checked) {
 }
 
 /* ===== Photo Upload ===== */
-function handlePhotoChange(event) {
-    const file = event.target.files[0];
-    if (file) showPhotoPreview(file);
-}
+    function handlePhotoChange(event) {
+        const file = event.target.files[0];
+        if (file) openCropper(file);
+    }
 
 function handleDragOver(e) {
     e.preventDefault(); e.stopPropagation();
@@ -534,7 +535,7 @@ function handleDrop(e) {
         const dt = new DataTransfer();
         dt.items.add(file);
         document.getElementById('inp-photo').files = dt.files;
-        showPhotoPreview(file);
+        openCropper(file);
     }
 }
 

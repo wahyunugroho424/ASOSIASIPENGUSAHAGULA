@@ -236,7 +236,7 @@
         <?php echo csrf_field(); ?> <?php echo method_field('PUT'); ?>
 
         <input type="hidden" name="sort_order"   id="hidden-order"  value="<?php echo e(old('sort_order', $structure->sort_order)); ?>">
-        <input type="hidden" name="is_active"    id="hidden-active" value="<?php echo e($structure->is_active ? '1' : '0'); ?>">
+        <input type="hidden" name="is_active"    id="hidden-active" value="<?php echo e(old('is_active', $structure->is_active) ? '1' : '0'); ?>">
         <input type="hidden" name="icon"         id="hidden-icon"   value="<?php echo e(old('icon', $structure->icon)); ?>">
         <input type="hidden" name="remove_photo" id="hidden-remove" value="0">
 
@@ -378,6 +378,12 @@ unset($__errorArgs, $__bag); ?>
                             </div>
                         </div>
                         <div class="hint-text mt-2">
+                            <?php if($structure->photo && Storage::disk('public')->exists($structure->photo)): ?>
+                                <button type="button" class="btn btn-sm btn-outline-secondary mt-2"
+                                        onclick="openCropperFromUrl('<?php echo e($structure->photo_url); ?>', 'foto-<?php echo e($structure->id); ?>')">
+                                    <i class="bi bi-crop me-1"></i> Atur ulang crop foto saat ini
+                                </button>
+                            <?php endif; ?>
                             <i class="bi bi-info-circle" style="font-size:12px"></i>
                             Upload foto baru untuk mengganti yang lama. Klik × untuk menghapus foto.
                         </div>
@@ -534,6 +540,7 @@ unset($__errorArgs, $__bag); ?>
         </div>
     </form>
 </div>
+<?php echo $__env->make('admin.structure._cropper', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startPush('scripts'); ?>
@@ -623,7 +630,7 @@ function syncActive(checked) {
 /* ===== Photo Upload ===== */
 function handlePhotoChange(event) {
     const file = event.target.files[0];
-    if (file) showPhotoPreview(file);
+    if (file) openCropper(file);
 }
 
 function handleDragOver(e) {
@@ -642,7 +649,7 @@ function handleDrop(e) {
         const dt = new DataTransfer();
         dt.items.add(file);
         document.getElementById('inp-photo').files = dt.files;
-        showPhotoPreview(file);
+        openCropper(file);
     }
 }
 

@@ -335,6 +335,12 @@
                             </div>
                         </div>
                         <div class="hint-text mt-2">
+                            @if($structure->photo && Storage::disk('public')->exists($structure->photo))
+                                <button type="button" class="btn btn-sm btn-outline-secondary mt-2"
+                                        onclick="openCropperFromUrl('{{ $structure->photo_url }}', 'foto-{{ $structure->id }}')">
+                                    <i class="bi bi-crop me-1"></i> Atur ulang crop foto saat ini
+                                </button>
+                            @endif
                             <i class="bi bi-info-circle" style="font-size:12px"></i>
                             Upload foto baru untuk mengganti yang lama. Klik × untuk menghapus foto.
                         </div>
@@ -478,6 +484,7 @@
         </div>
     </form>
 </div>
+@include('admin.structure._cropper')
 @endsection
 
 @push('scripts')
@@ -567,7 +574,7 @@ function syncActive(checked) {
 /* ===== Photo Upload ===== */
 function handlePhotoChange(event) {
     const file = event.target.files[0];
-    if (file) showPhotoPreview(file);
+    if (file) openCropper(file);
 }
 
 function handleDragOver(e) {
@@ -586,7 +593,7 @@ function handleDrop(e) {
         const dt = new DataTransfer();
         dt.items.add(file);
         document.getElementById('inp-photo').files = dt.files;
-        showPhotoPreview(file);
+        openCropper(file);
     }
 }
 
