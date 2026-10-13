@@ -1771,7 +1771,7 @@ use Artesaos\SEOTools\Facades\SEOTools as SEO;
             <hr class="my-3" style="border-color: rgba(46, 125, 50, 0.2);">
             <div class="row align-items-center">
                 <div class="col-md-8">
-                    <p class="text-muted mb-0" data-en="&copy; 2025 APGI - Indonesian Sugar Entrepreneurs Association. All rights reserved. | Developed by Stellar Tech" data-id="&copy; 2025 APGI - Asosiasi Pengusaha Gula Indonesia. Semua hak dilindungi. | Developed by CaeCode">
+                    <p class="text-muted mb-0" data-en="&copy; 2025 APGI - Indonesian Sugar Entrepreneurs Association. All rights reserved. | Developed by Stellar Tech" data-id="&copy; 2025 APGI - Asosiasi Pengusaha Gula Indonesia. Semua hak dilindungi. | Developed by Stellar Tech">
                     </p>
                 </div>
                 <div class="col-md-4 text-md-end">
