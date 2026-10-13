@@ -266,7 +266,7 @@
                 <i class="bi bi-newspaper"></i> News
             </a>
 
-            <div class="nav-group-label">Organisasi</div>
+            <!-- <div class="nav-group-label">Organisasi</div> -->
 
             <!-- <a href="{{ route('admin.member.index') }}"
                class="sidebar-link {{ request()->routeIs('admin.member*') ? 'active' : '' }}">
