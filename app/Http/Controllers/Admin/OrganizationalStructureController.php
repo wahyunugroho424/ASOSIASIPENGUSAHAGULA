@@ -45,7 +45,8 @@ class OrganizationalStructureController extends Controller
             'is_active'  => 'nullable',
         ]);
 
-        $validated['is_active']  = $request->has('is_active') ? 1 : 0;
+        // boolean() membaca nilai: "1"/"on" = true, "0"/kosong = false
+        $validated['is_active']  = $request->boolean('is_active') ? 1 : 0;
         $validated['sort_order'] = $request->input('sort_order', 0);
         $validated['created_by'] = Auth::guard('admin')->id();
         $validated['updated_by'] = Auth::guard('admin')->id();
@@ -79,18 +80,22 @@ class OrganizationalStructureController extends Controller
             'is_active'    => 'nullable',
         ]);
 
-        $validated['is_active']  = $request->has('is_active') ? 1 : 0;
+        $validated['is_active']  = $request->boolean('is_active') ? 1 : 0;
         $validated['sort_order'] = $request->input('sort_order', 0);
         $validated['updated_by'] = Auth::guard('admin')->id();
 
-        if ($request->has('remove_photo') && $structure->photo) {
-            Storage::disk('public')->delete($structure->photo);
-            $validated['photo'] = null;
-        }
+        $oldPhoto = $structure->photo;
 
         if ($request->hasFile('photo')) {
-            if ($structure->photo) Storage::disk('public')->delete($structure->photo);
+            // Simpan foto baru dulu, baru hapus yang lama
             $validated['photo'] = $request->file('photo')->store('people', 'public');
+            if ($oldPhoto) {
+                Storage::disk('public')->delete($oldPhoto);
+            }
+        } elseif ($request->boolean('remove_photo') && $oldPhoto) {
+            // Hanya hapus kalau remove_photo benar-benar bernilai 1
+            Storage::disk('public')->delete($oldPhoto);
+            $validated['photo'] = null;
         }
 
         unset($validated['remove_photo']);
@@ -103,7 +108,9 @@ class OrganizationalStructureController extends Controller
     public function destroy(OrganizationalStructure $structure)
     {
         $name = $structure->name;
-        if ($structure->photo) Storage::disk('public')->delete($structure->photo);
+        if ($structure->photo) {
+            Storage::disk('public')->delete($structure->photo);
+        }
         $structure->delete();
 
         return redirect()->route('admin.structure.index')

@@ -236,7 +236,7 @@
         @csrf @method('PUT')
 
         <input type="hidden" name="sort_order"   id="hidden-order"  value="{{ old('sort_order', $structure->sort_order) }}">
-        <input type="hidden" name="is_active"    id="hidden-active" value="{{ $structure->is_active ? '1' : '0' }}">
+        <input type="hidden" name="is_active"    id="hidden-active" value="{{ old('is_active', $structure->is_active) ? '1' : '0' }}">
         <input type="hidden" name="icon"         id="hidden-icon"   value="{{ old('icon', $structure->icon) }}">
         <input type="hidden" name="remove_photo" id="hidden-remove" value="0">
 
