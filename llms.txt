@@ -1,13 +1,13 @@
 # == METADATA ==
-Domain: https://pengusahagulaindonesia.com
+Domain: https://asosiasipengusahagula.com
 Site Name: Pengusaha Gula Indonesia
 Site Description: Finance
 Policy-Version: 2025-09-20T00:00:00Z-v2
 Last-Modified: 2025-09-20T16:45:37+00:00
 
 # == CONTACT ==
-Primary Email: sekretariat@pengusahagulaindonesia.com
-Abuse/Report Email: sekretariat@pengusahagulaindonesia.com
+Primary Email: sekretariat@asosiasipengusahagula.com
+Abuse/Report Email: sekretariat@asosiasipengusahagula.com
 
 # == GLOBAL RULES ==
 This policy governs the crawling, storage, training, fine-tuning, inference, and caching of content from Pengusaha Gula Indonesia. Our goal is to enable responsible AI usage that respects our content rights, ensures data security, and maintains transparency. Content may be used for AI training, inference, and derivative creation with proper attribution, unless explicitly blocked. All activities must comply with applicable laws and licensing terms. Unauthorized automated vulnerability scanning or security testing is strictly prohibited.

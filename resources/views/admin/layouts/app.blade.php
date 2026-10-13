@@ -265,7 +265,7 @@
                class="sidebar-link {{ request()->routeIs('admin.news*') ? 'active' : '' }}">
                 <i class="bi bi-newspaper"></i> News
             </a>
-
+<!-- 
             <div class="nav-group-label">Organisasi</div>
 
             <a href="{{ route('admin.member.index') }}"
@@ -276,7 +276,7 @@
             <a href="{{ route('admin.structure.index') }}"
                class="sidebar-link {{ request()->routeIs('admin.structure*') ? 'active' : '' }}">
                 <i class="bi bi-diagram-3-fill"></i> Struktur Organisasi
-            </a>
+            </a> -->
 
         </div>
 

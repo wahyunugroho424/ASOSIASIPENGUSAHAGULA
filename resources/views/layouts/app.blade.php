@@ -1750,7 +1750,7 @@ use Artesaos\SEOTools\Facades\SEOTools as SEO;
                         </div>
                         <div class="contact-item mb-3">
                             <i class="fas fa-envelope"></i>
-                            <span>sekretariat@pengusahagulaindonesia.com</span>
+                            <span>sekretariat@asosiasipengusahagula.com</span>
                         </div>
                         
                         <div class="map-container mt-3" style="height: 150px; border-radius: 8px; overflow: hidden;" onclick="window.open('https://maps.google.com/?q=Jl.+Tanjung+Batu+No.38-54+Perak+Barat+Krembangan+Surabaya+Jawa+Timur+60177', '_blank')">

@@ -952,7 +952,7 @@
         <div class="row justify-content-center">
             <div class="col-lg-8 col-md-10">
                 <div class="contact-form-container bg-white rounded-4 shadow p-5">
-                    <form id="contactForm" action="mailto:sekretariat@pengusahagulaindonesia.com" method="post" enctype="text/plain">
+                    <form id="contactForm" action="mailto:sekretariat@asosiasipengusahagula.com" method="post" enctype="text/plain">
                         <div class="row g-4">
 
                             <div class="col-md-6">
@@ -1005,7 +1005,7 @@
                     </div>
                     <h6 class="mb-2">Email</h6>
                     <p class="text-muted mb-0">apgi@pengusahagulaindonesia.com</p>
-                    <p class="text-muted mb-0">sekretariat@pengusahagulaindonesia.com</p>
+                    <p class="text-muted mb-0">sekretariat@asosiasipengusahagula.com</p>
 
                 </div>
             </div>

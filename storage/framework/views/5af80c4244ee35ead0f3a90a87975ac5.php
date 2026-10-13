@@ -1531,7 +1531,7 @@ use Artesaos\SEOTools\Facades\SEOTools as SEO;
             </div>
             
             <div class="splash-copyright">
-                <p class="developed-by">Developed by <strong class="caecode-white">Stellar Tech</strong></p>
+                <p class="developed-by">Developed by <strong class="caecode-white">CaeCode</strong></p>
             </div>
         </div>
         <div class="splash-background">
@@ -1751,7 +1751,7 @@ use Artesaos\SEOTools\Facades\SEOTools as SEO;
                         </div>
                         <div class="contact-item mb-3">
                             <i class="fas fa-envelope"></i>
-                            <span>sekretariat@pengusahagulaindonesia.com</span>
+                            <span>sekretariat@asosiasipengusahagula.com</span>
                         </div>
                         
                         <div class="map-container mt-3" style="height: 150px; border-radius: 8px; overflow: hidden;" onclick="window.open('https://maps.google.com/?q=Jl.+Tanjung+Batu+No.38-54+Perak+Barat+Krembangan+Surabaya+Jawa+Timur+60177', '_blank')">
@@ -1772,8 +1772,7 @@ use Artesaos\SEOTools\Facades\SEOTools as SEO;
             <hr class="my-3" style="border-color: rgba(46, 125, 50, 0.2);">
             <div class="row align-items-center">
                 <div class="col-md-8">
-                    <p class="text-muted mb-0" data-en="&copy; 2025 APGI - Indonesian Sugar Entrepreneurs Association. All rights reserved. | Developed by Stellar Tech" data-id="&copy; 2025 APGI - Asosiasi Pengusaha Gula Indonesia. Semua hak dilindungi. | Developed by Stellar Tech">
-                        &copy; 2025 APGI - Asosiasi Pengusaha Gula Indonesia. Semua hak dilindungi. | Developed by <strong class="caecode-white">Stellar Tech</strong>
+                    <p class="text-muted mb-0" data-en="&copy; 2025 APGI - Indonesian Sugar Entrepreneurs Association. All rights reserved. | Developed by Stellar Tech" data-id="&copy; 2025 APGI - Asosiasi Pengusaha Gula Indonesia. Semua hak dilindungi. | Developed by CaeCode">
                     </p>
                 </div>
                 <div class="col-md-4 text-md-end">
