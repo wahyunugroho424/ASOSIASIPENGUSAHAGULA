@@ -1530,7 +1530,7 @@ use Artesaos\SEOTools\Facades\SEOTools as SEO;
             </div>
             
             <div class="splash-copyright">
-                <p class="developed-by">Developed by <strong class="caecode-white">CaeCode</strong></p>
+                <p class="developed-by">Developed by <strong class="caecode-white">Stellar Tech</strong></p>
             </div>
         </div>
         <div class="splash-background">
